@@ -22,7 +22,7 @@ class HashMap {
     return hashCode % this.capacity;
   }
 
-  getHashVal(key){
+  getHashVal(key) {
     let hashVal = this.hash(key);
 
     if (hashVal < 0 || hashVal >= this.buckets.length) {
@@ -42,6 +42,23 @@ class HashMap {
     } else {
       this.buckets[hashVal].at(index).value = value;
     }
+
+    if (this.capacity * this.loadFactor < this.size) {
+      this.resize();
+      console.log("hey");
+    }
+  }
+
+  resize() {
+    let entries = this.entries();
+
+    this.capacity = this.capacity * 2;
+    this.size = 0;
+    this.buckets = Array.from(
+      { length: this.capacity },
+      () => new LinkedList(),
+    );
+    entries.forEach((pair) => this.set(...pair));
   }
 
   get(key) {
@@ -55,14 +72,14 @@ class HashMap {
     }
   }
 
-  has(key){
-    let hashVal = this.getHashVal(key)
+  has(key) {
+    let hashVal = this.getHashVal(key);
 
     return this.buckets[hashVal].find(key) != -1;
   }
 
-  remove(key){
-    let hashVal = this.getHashVal(key)
+  remove(key) {
+    let hashVal = this.getHashVal(key);
 
     let index = this.buckets[hashVal].find(key);
     if (index == -1) {
@@ -74,46 +91,46 @@ class HashMap {
     }
   }
 
-  length(){
+  length() {
     return this.size;
   }
 
-  clear(){
-    for(let i = 0; i < this.capacity; i++){
-        this.buckets[i].clear();
+  clear() {
+    for (let i = 0; i < this.capacity; i++) {
+      this.buckets[i].clear();
     }
     this.size = 0;
   }
 
-  keys(){
-    let keys = []
-    for(let i = 0; i < this.capacity; i++){
-        let arr = this.buckets[i].getKeyValuePair();
-        for(let j = 0; j < arr.length; j++){
-            keys.push(arr[j][0]);
-        }
+  keys() {
+    let keys = [];
+    for (let i = 0; i < this.capacity; i++) {
+      let arr = this.buckets[i].getKeyValuePair();
+      for (let j = 0; j < arr.length; j++) {
+        keys.push(arr[j][0]);
+      }
     }
     return keys;
   }
 
-  values(){
-    let values = []
-    for(let i = 0; i < this.capacity; i++){
-        let arr = this.buckets[i].getKeyValuePair();
-        for(let j = 0; j < arr.length; j++){
-            values.push(arr[j][1]);
-        }
+  values() {
+    let values = [];
+    for (let i = 0; i < this.capacity; i++) {
+      let arr = this.buckets[i].getKeyValuePair();
+      for (let j = 0; j < arr.length; j++) {
+        values.push(arr[j][1]);
+      }
     }
     return values;
   }
 
-  entries(){
-    let pairs = []
-    for(let i = 0; i < this.capacity; i++){
-        let arr = this.buckets[i].getKeyValuePair();
-        for(let j = 0; j < arr.length; j++){
-            pairs.push(arr[j]);
-        }
+  entries() {
+    let pairs = [];
+    for (let i = 0; i < this.capacity; i++) {
+      let arr = this.buckets[i].getKeyValuePair();
+      for (let j = 0; j < arr.length; j++) {
+        pairs.push(arr[j]);
+      }
     }
     return pairs;
   }
@@ -139,6 +156,7 @@ h.set("ice cream", "white");
 h.set("jacket", "blue");
 h.set("kite", "pink");
 h.set("lion", "golden");
+h.set("moon", "silver");
 console.log(h.length());
 console.log(h.keys());
 console.log(h.values());

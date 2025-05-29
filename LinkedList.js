@@ -35,39 +35,6 @@ class LinkedList {
     this.#size++;
   }
 
-  pop() {
-  if (this.startNode == null) return;
-
-  if (this.startNode.next == null) {
-    this.startNode = null;
-  } else {
-    let currentNode = this.startNode;
-    let prevNode = null;
-    while (currentNode.next != null) {
-      prevNode = currentNode;
-      currentNode = currentNode.next;
-    }
-    prevNode.next = null;
-  }
-  this.#size--;
-}
-
-  head() {
-    return this.startNode;
-  }
-
-  tail() {
-    if (this.startNode == null) {
-      return null;
-    }
-
-    let currentNode = this.startNode;
-    while (currentNode.next != null) {
-      currentNode = currentNode.next;
-    }
-    return currentNode;
-  }
-
   find(key) {
     if (this.startNode == null) {
       return -1;
@@ -137,20 +104,20 @@ class LinkedList {
     return str;
   }
 
-  getKeyValuePair(){
-    let arr = []
+  getKeyValuePair() {
+    let arr = [];
     let currentNode = this.startNode;
     while (currentNode != null) {
-      arr.push([currentNode.key, currentNode.value])
+      arr.push([currentNode.key, currentNode.value]);
       currentNode = currentNode.next;
     }
     return arr;
   }
 
   clear() {
-  this.startNode = null;
-  this.#size = 0;
-}
+    this.startNode = null;
+    this.#size = 0;
+  }
 }
 
 export { LinkedList };
